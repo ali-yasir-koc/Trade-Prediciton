@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Germany Import Export</title>
+</head>
+
+
+<style>
+    * {
+      box-sizing: border-box;
+    }
+    body, html {
+      height: 100%;
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    .background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        min-height: 100vh;
+        background-size: cover;
+        background-repeat: no-repeat ;
+        z-index: -1;
+        filter: blur(2px);
+        -webkit-filter: blur(2px);
+    }
+    .container {
+        display: flex;
+        justify-content: space-around;
+        padding: 20px;
+    }
+    .image-section {
+        flex: 2;
+    }
+    .image-section img {
+        max-width: 100%;
+        height: auto;
+    }
+    .desc-table-section {
+        padding: 20px;
+        text-align: center;
+        flex: 1;
+    }
+    header {
+      background-color: #e2eef5;
+      text-align: center;
+      font-size: 30px;
+      line-height:0.2;
+      padding: 3px;
+      font-family: Verdana;
+    }
+</style>
+
+<header style="color: #000000">
+  <h2>GERMANY</h2>
+</header>
+
+<header style="color: #ff0000">
+  <h2>IMPORT - EXPORT</h2>
+</header>
+
+<header style="color: #FFCC00">
+  <h2>PREDICTIONS</h2>
+</header>
+
+<body>
+    <div class="background"></div>
+    <div class="content" style="font-size:20px; color:#110202; margin-top: 30px; text-align: center">
+        <form action="{{ url_for('main')}}"method="get">
+            <label for="hs_code"
+                   style="margin-right: 5px; font-size: 30px; font-family: 'American Typewriter'; color: #007BA7; font-weight: bold">
+                Hs Code:
+            </label>
+            <select id="hs_code"
+                    name="hs_code"
+                    style="font-size:30px; color:#110202; background-color: #f3f6f4;padding: 10px">
+                {% for code in hs_codes %}
+                    <option value="{{ code }}">{{ code }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="trade_type"
+                   style="margin-left: 80px; margin-right: 5px; font-size: 30px;font-family: 'American Typewriter';color: #007BA7; font-weight: bold">
+                Trade Type:
+            </label>
+            <select id="trade_type"
+                    name="trade_type"
+                    style="font-size:30px; color:#110202; background-color: #f3f6f4;padding: 10px">
+                <option value="M">Import</option>
+                <option value="X">Export</option>
+            </select>
+            <br>
+            <button type="submit"
+                    style="font-size:35px; color:#ffffff; background-color: #00AB66;
+                     margin-top: 30px; padding: 15px">
+                Predict
+            </button>
+        </form>
+        <br><br>
+    </div>
+    <div class="container">
+        <div class="image-section" style="text-align: center; padding-top: 0px; margin-top: 0px">
+            <img src="data:image/png;base64, {{ plot_url }}">
+        </div>
+        <div class="desc-table-section">
+            <div class="description-section"
+                 style="color: #06784d; font-size: 25px; text-align: center; width: 500px; margin:0 auto; padding-bottom: 0px ">
+                <h3>{{description}}</h3>
+            </div>
+            <div class="table-section">
+                <table style="margin: 0 auto; border-collapse: collapse; width: 450px;">
+                    <tr style="text-align: center; font-size: 30px">
+                        <td colspan="3" style="border: 1px solid #000; padding: 10px; white-space: normal;
+                                               font-family: 'American Typewriter'; color: #007BA7;">
+                            TRENDS
+                        </td>
+                    </tr>
+                    <tr style="text-align: center; font-size: 20px; font-family: Verdana; color: #d57b0c">
+                        <td style="border: 1px solid #000; padding: 10px; white-space: normal;">1 Years</td>
+                        <td style="border: 1px solid #000; padding: 10px; white-space: normal;">3 Years</td>
+                        <td style="border: 1px solid #000; padding: 10px; white-space: normal;">All History</td>
+                    </tr>
+                    <tr>
+                        <td style="border: 1px solid #000; padding: 10px;">
+                            <img src="{{ url_for('static', filename=trend3) }}" alt="year3" width="150" height="100">
+                        </td>
+                        <td style="border: 1px solid #000; padding: 10px;">
+                            <img src="{{ url_for('static', filename=trend5) }}" alt="year5" width="150" height="100">
+                        </td>
+                        <td style="border: 1px solid #000; padding: 10px;">
+                            <img src="{{ url_for('static', filename=trend_all) }}" alt="year_all" width="150" height="100">
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

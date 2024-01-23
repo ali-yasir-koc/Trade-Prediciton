@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Germany Import Export</title>
+</head>
+
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+    body, html {
+        height: 100%;
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+    .background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        min-height: 100vh;
+        background-size: cover;
+        background-repeat: no-repeat ;
+        z-index: -1;
+        filter: blur(2px);
+        -webkit-filter: blur(2px);
+    }
+    header {
+        background-color: #e2eef5;
+        text-align: center;
+        font-size: 30px;
+        line-height:0.2;
+        padding: 3px;
+        font-family: Verdana;
+    }
+</style>
+
+<header style="color: #000000">
+  <h2>GERMANY</h2>
+</header>
+
+<header style="color: #ff0000">
+  <h2>IMPORT - EXPORT</h2>
+</header>
+
+<header style="color: #FFCC00">
+  <h2>PREDICTIONS</h2>
+</header>
+<body>
+    <div class="background"></div>
+    <div class="content" style="font-size:20px; color:#110202; margin-top: 30px; text-align: center">
+    <form action="{{ url_for('main')}}" method="get">
+        <label for="hs_code"
+               style="margin-right: 5px; font-size: 30px; font-family: 'American Typewriter'; color: #007BA7; font-weight: bold">
+            Hs Code:
+        </label>
+        <select id="hs_code"
+                name="hs_code"
+                style="font-size:30px; color:#110202; background-color: #f3f6f4;padding: 10px">
+            {% for code in hs_codes %}
+                <option value="{{ code }}">{{ code }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="trade_type"
+               style="margin-left: 80px; margin-right: 5px; font-size: 30px;font-family: 'American Typewriter';color: #007BA7; font-weight: bold">
+            Trade Type:
+        </label>
+        <select id="trade_type"
+                name="trade_type"
+                style="font-size:30px; color:#110202; background-color: #f3f6f4;padding: 10px">
+            <option value="M">Import</option>
+            <option value="X">Export</option>
+        </select>
+        <br>
+        <button type="submit"
+                style="font-size:35px; color:#ffffff; background-color: #00AB66;
+                 margin-top: 30px; padding: 15px">
+            Predict
+        </button>
+    </form>
+    <br><br>
+    </div>
+    <div style="color: #06784d; font-size: 25px; text-align: center; width: 900px; margin:0 auto; padding-bottom: 0">
+        <h3>{{description}}</h3>
+    </div>
+    <div style="color: #ee3232; font-size: 30px; text-align: center; width: 1200px; margin:0 auto; background-color:#eaabbe;">
+        <h3>There is No Data for This Pair ({{hs_code}} & {{trade_str}}) <br>
+            !!PLEASE!! <br>
+            Try Other Trade Type for This HS CODE <br>
+        </h3>
+    </div>
+</body>
+</html>
