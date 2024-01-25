@@ -113,27 +113,32 @@
             </div>
             <div class="table-section">
                 <table style="margin: 0 auto; border-collapse: collapse; width: 450px;">
-                    <tr style="text-align: center; font-size: 30px">
+                    <tr style="text-align: center; font-size: 40px; background-color: #cbd7f1">
                         <td colspan="3" style="border: 1px solid #000; padding: 10px; white-space: normal;
-                                               font-family: 'American Typewriter'; color: #007BA7;">
+                                               font-family: 'American Typewriter'; color: #06377e;">
                             TRENDS
                         </td>
                     </tr>
-                    <tr style="text-align: center; font-size: 20px; font-family: Verdana; color: #d57b0c">
+                    <tr style="text-align: center; font-size: 30px; font-family: Verdana; color: #d57b0c">
                         <td style="border: 1px solid #000; padding: 10px; white-space: normal;">1 Years</td>
                         <td style="border: 1px solid #000; padding: 10px; white-space: normal;">3 Years</td>
                         <td style="border: 1px solid #000; padding: 10px; white-space: normal;">All History</td>
                     </tr>
                     <tr>
                         <td style="border: 1px solid #000; padding: 10px;">
-                            <img src="{{ url_for('static', filename=trend3) }}" alt="year3" width="150" height="100">
+                            <img src="{{ url_for('static', filename=trend1) }}" alt="year1" width="150" height="100">
                         </td>
                         <td style="border: 1px solid #000; padding: 10px;">
-                            <img src="{{ url_for('static', filename=trend5) }}" alt="year5" width="150" height="100">
+                            <img src="{{ url_for('static', filename=trend3) }}" alt="year3" width="150" height="100">
                         </td>
                         <td style="border: 1px solid #000; padding: 10px;">
                             <img src="{{ url_for('static', filename=trend_all) }}" alt="year_all" width="150" height="100">
                         </td>
+                    </tr>
+                    <tr style="font-size: 30px; color: #6b0180;font-family: 'Berlin Sans FB'">
+                        <td style="border: 1px solid #000; padding: 10px;">{{country1}}</td>
+                        <td style="border: 1px solid #000; padding: 10px;">{{country3}}</td>
+                        <td style="border: 1px solid #000; padding: 10px;">{{country_all}}</td>
                     </tr>
                 </table>
             </div>

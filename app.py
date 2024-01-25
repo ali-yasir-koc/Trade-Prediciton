@@ -13,7 +13,8 @@ def read_csv():
     predictions_data = pd.read_csv('datasets/predictions.csv', sep='|', dtype={'hs_code': str})
     mae_values_data = pd.read_csv("datasets/mae_values.csv", sep="|", dtype={"hs_code": str})
     hs_descriptions_data = pd.read_csv("datasets/hs_interested.csv", sep="|", dtype={"hs_code": str})
-    return predictions_data, mae_values_data, hs_descriptions_data
+    countries = pd.read_csv("datasets/helpers data/countries.csv", sep = "|")
+    return predictions_data, mae_values_data, hs_descriptions_data, countries
 
 
 def read_data(hs_code, trade_type):
@@ -60,9 +61,26 @@ def trend_images(pred):
     trends = pred['trend_label'].values[0]
     trends = [image_dict[i] for i in list(map(int, trends.strip('[]').split(',')))]
 
-    trend3, trend5, trend_all = trends[0], trends[1], trends[2]
+    trend1, trend3, trend_all = trends[0], trends[1], trends[2]
 
-    return trend3, trend5, trend_all
+    return trend1, trend3, trend_all
+
+
+def trend_country(hs_code, trade_type, countries):
+    if trade_type == "M":
+        df = pd.read_parquet(f"datasets/imports/{hs_code}_M_comtrade.parquet")
+    else:
+        df = pd.read_parquet(f"datasets/exports/{hs_code}_X_comtrade.parquet")
+
+    one_year = df[df["period"] > 202211].groupby("partnerCode").agg({"primaryValue": "sum"}).reset_index().sort_values("primaryValue", ascending = False)["partnerCode"].values[0]
+    three_year = df[df["period"] > 202011].groupby("partnerCode").agg({"primaryValue": "sum"}).reset_index().sort_values("primaryValue", ascending = False)["partnerCode"].values[0]
+    all_year = df.groupby("partnerCode").agg({"primaryValue": "sum"}).reset_index().sort_values("primaryValue", ascending = False)["partnerCode"].values[0]
+
+    one_year_name = countries.loc[countries["country_code"] == one_year, "country_name"].values[0]
+    three_year_name = countries.loc[countries["country_code"] == three_year, "country_name"].values[0]
+    all_year_name = countries.loc[countries["country_code"] == all_year, "country_name"].values[0]
+
+    return one_year_name, three_year_name, all_year_name
 
 
 def plot_actual_pred(actual_data, pred_data, model_name, hs_code, trade_type):
@@ -98,7 +116,7 @@ def plot_actual_pred(actual_data, pred_data, model_name, hs_code, trade_type):
     return img
 
 
-predictions, mae_values, hs_descriptions = read_csv()
+predictions, mae_values, hs_descriptions, countries = read_csv()
 @app.route('/')
 def home():
     hs_codes = list(hs_descriptions["hs_code"])
@@ -121,10 +139,12 @@ def main():
         img = plot_actual_pred(stats_data, pred, model_name, hs_code, trade_type)
         plot_url = base64.b64encode(img.getvalue()).decode('utf8')
 
-        trend3, trend5, trend_all = trend_images(pred)
+        trend1, trend3, trend_all = trend_images(pred)
+        country1, country3, country_all = trend_country(hs_code, trade_type, countries)
 
         return render_template("predict.html", plot_url=plot_url, hs_codes=hs_codes, description=description,
-                               trend3=trend3, trend5=trend5, trend_all=trend_all)
+                               trend1=trend1, trend3=trend3, trend_all=trend_all,
+                               country1= country1, country3=country3, country_all= country_all)
     except FileNotFoundError:
         trade_str = "Import" if trade_type == "M" else "Export"
         return render_template("error.html",
