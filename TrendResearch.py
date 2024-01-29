@@ -21,34 +21,34 @@ del trends['trend_value']
 
 trends.head()
 
-three_years_first_50_M = trends[trends['trade_type'] == 'M'].sort_values('trend_1', ascending=False).head(50)
-five_years_first_50_M = trends[trends['trade_type'] == 'M'].sort_values('trend_3', ascending=False).head(50)
+one_years_first_50_M = trends[trends['trade_type'] == 'M'].sort_values('trend_1', ascending=False).head(50)
+three_years_first_50_M = trends[trends['trade_type'] == 'M'].sort_values('trend_3', ascending=False).head(50)
 all_years_first_50_M = trends[trends['trade_type'] == 'M'].sort_values('trend_all', ascending=False).head(50)
 
-three_years_first_50_X = trends[trends['trade_type'] == 'X'].sort_values('trend_1', ascending=False).head(50)
-five_years_first_50_X = trends[trends['trade_type'] == 'X'].sort_values('trend_3', ascending=False).head(50)
+one_years_first_50_X = trends[trends['trade_type'] == 'X'].sort_values('trend_1', ascending=False).head(50)
+three_years_first_50_X = trends[trends['trade_type'] == 'X'].sort_values('trend_3', ascending=False).head(50)
 all_years_first_50_X = trends[trends['trade_type'] == 'X'].sort_values('trend_all', ascending=False).head(50)
 
-three_years_last_50_M = trends[trends['trade_type'] == 'M'].sort_values('trend_1', ascending=True).head(50)
-five_years_last_50_M = trends[trends['trade_type'] == 'M'].sort_values('trend_3', ascending=True).head(50)
+one_years_last_50_M = trends[trends['trade_type'] == 'M'].sort_values('trend_1', ascending=True).head(50)
+three_years_last_50_M = trends[trends['trade_type'] == 'M'].sort_values('trend_3', ascending=True).head(50)
 all_years_last_50_M = trends[trends['trade_type'] == 'M'].sort_values('trend_all', ascending=True).head(50)
 
-three_years_last_50_X = trends[trends['trade_type'] == 'X'].sort_values('trend_1', ascending=True).head(50)
-five_years_last_50_X = trends[trends['trade_type'] == 'X'].sort_values('trend_3', ascending=True).head(50)
+one_years_last_50_X = trends[trends['trade_type'] == 'X'].sort_values('trend_1', ascending=True).head(50)
+three_years_last_50_X = trends[trends['trade_type'] == 'X'].sort_values('trend_3', ascending=True).head(50)
 all_years_last_50_X = trends[trends['trade_type'] == 'X'].sort_values('trend_all', ascending=True).head(50)
 
 
-hs_list = list(three_years_first_50_M["hs_code"])
-hs_list.extend(list(five_years_first_50_M["hs_code"]))
+hs_list = list(one_years_first_50_M["hs_code"])
+hs_list.extend(list(three_years_first_50_M["hs_code"]))
 hs_list.extend(list(all_years_first_50_M["hs_code"]))
+hs_list.extend(list(one_years_first_50_X["hs_code"]))
 hs_list.extend(list(three_years_first_50_X["hs_code"]))
-hs_list.extend(list(five_years_first_50_X["hs_code"]))
 hs_list.extend(list(all_years_first_50_X["hs_code"]))
+hs_list.extend(list(one_years_last_50_M["hs_code"]))
 hs_list.extend(list(three_years_last_50_M["hs_code"]))
-hs_list.extend(list(five_years_last_50_M["hs_code"]))
 hs_list.extend(list(all_years_last_50_M["hs_code"]))
+hs_list.extend(list(one_years_last_50_X["hs_code"]))
 hs_list.extend(list(three_years_last_50_X["hs_code"]))
-hs_list.extend(list(five_years_last_50_X["hs_code"]))
 hs_list.extend(list(all_years_last_50_X["hs_code"]))
 
 hs_list = list(set(hs_list))
@@ -67,16 +67,16 @@ trends['sel'] = trends['trend_1'] * trends['trend_3']
 
 trends[(trends['hs_code'].isin(hs_interested['hs_code'])) & (trends['trade_type'] == 'M') &
        (trends['label_3'] == 1)].\
-    sort_values('trend_1', ascending=False).head(5)
+    sort_values('trend_1', ascending=False).head(10)
 trends[(trends['hs_code'].isin(hs_interested['hs_code'])) & (trends['trade_type'] == 'M') &
        (trends['label_3'] == -1)].\
-    sort_values('trend_1', ascending=True).head(5)
+    sort_values('trend_1', ascending=True).head(10)
 
 
 trends[(trends['hs_code'].isin(hs_interested['hs_code'])) & (trends['trade_type'] == 'X') &
        (trends['label_3'] == 1)].\
-    sort_values('trend_1', ascending=False).head(5)
+    sort_values('trend_1', ascending=False).head(10)
 trends[(trends['hs_code'].isin(hs_interested['hs_code'])) & (trends['trade_type'] == 'X') &
        (trends['label_3'] == -1)].\
-    sort_values('trend_1', ascending=True).head(5)
+    sort_values('trend_1', ascending=True).head(10)
 

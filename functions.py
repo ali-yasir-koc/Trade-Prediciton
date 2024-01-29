@@ -128,21 +128,18 @@ def ml_data_prepare(dataframe, final = False):
 def linear_trend(dataframe):
     trend_labels = []
     trend_values = []
+    X = np.arange(len(dataframe)).reshape(-1, 1)
+    y = dataframe.iloc[:].values.reshape(-1, 1)
+    mms = MinMaxScaler()
+    y = mms.fit_transform(y)
     for i in (12, 36, len(dataframe)):
-        X = np.arange(i).reshape(-1, 1)
-        # Create a value with the number of dates on the x-axis
-        y = dataframe.iloc[-i:].values.reshape(-1, 1)
-        mms = MinMaxScaler()
-        y = mms.fit_transform(y)
-        # Set values to the desired shape
-
         model = LinearRegression()
-        model.fit(X, y)
+        model.fit(X[-i:], y[-i:])
         trend_slope = model.coef_[0][0]
         trend_values.append(trend_slope)
-        if trend_slope > 0.0001:
+        if trend_slope > 0.001:
             trend_labels.append(1)
-        elif trend_slope < -0.0001:
+        elif trend_slope < -0.001:
             trend_labels.append(-1)
         else:
             trend_labels.append(0)
