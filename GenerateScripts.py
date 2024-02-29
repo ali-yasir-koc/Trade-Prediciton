@@ -1,7 +1,7 @@
 ########### GENERATE SCRIPT ################
 # These codes are used to prepare sh files.
 # Two empty sh files that already exist are filled by using Hs Codes in scope.
-# These sh file contain main python codes in this project for HS Code and trade type pairs.
+# These sh files are filled with main python codes in this project for HS Code and trade type pairs.
 # M represents imports and X represents exports.
 
 ###############################

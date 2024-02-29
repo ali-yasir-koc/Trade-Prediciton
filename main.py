@@ -1,13 +1,29 @@
+########### MAIN FUNCTION ################
+# This is the main code of the project.
+# It executes by using of helper functions.
+# The raw data is prepared with two different functions for different paths.
+# The prepared data are exposed to the trend calculation function and
+# the function in which different models are used and errors are calculated.
+# The results and predictions for each hs code and trade type pair are added as rows to the appropriate csv files.
+
+
+##############################
+# Import Library and Settings
+##############################
 import sys
 import pandas as pd
 import functions as f
 
 
+##############################
+# Main Algorithm
+##############################
 HsCode = sys.argv[1]
 TradeType = sys.argv[2]
 
 # HsCode = '271600'
 # TradeType = 'M'
+
 try:
     RawData = f.read_data(HsCode, TradeType)
     print(f'Data read for {HsCode} & {TradeType}')
