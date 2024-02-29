@@ -1,4 +1,17 @@
-########### Import Library and Settings  ############
+########### WEB SCRAPING MONTHLY DATA ################
+# These codes allow import and export data to be received from Comtrade on a monthly basis.
+# Firstly, data is loaded from the parquet file containing the Hs Codes within the scope.
+# Secondly, the URL of the site where the data is obtained and the API key obtained from the site are defined.
+# Some parameters are set in the scraping function and the get function of the request library is used.
+# A period list containing all months in the desired range is prepared.
+# Then the function is executed with a for loop.
+# The results were saved as a parquet file.
+# M represents imports and X represents exports.
+# Comtrade is the site from which the data is taken.
+
+##############################
+# Import Library and Settings
+##############################
 import requests
 import pandas as pd
 from datetime import datetime, timedelta
@@ -10,14 +23,18 @@ pd.set_option('display.width', 200)
 pd.set_option('display.float_format', lambda x: '%.2f' % x)
 
 
-########### Get Data ############
+##############################
+# Get Hs Code Data
+##############################
 df_M_HS = pd.read_parquet("datasets/all_hs_import.parquet", engine = "pyarrow")
 df_X_HS = pd.read_parquet("datasets/all_hs_export.parquet", engine = "pyarrow")
 
 
-########### Request Generation ############
+##############################
+# Scraping Function
+##############################
 request_url = "https://comtradeapi.un.org/data/v1/get/C/M/HS"
-headers = {'Ocp-Apim-Subscription-Key': '4741ec0a2a7145a0b8db02d914cc58a9', } # 7fd766b8d3c64a95bc21114588796f3b
+headers = {'Ocp-Apim-Subscription-Key': '4741ec0a2a7145a0b8db02d914cc58a9'}
 
 
 def get_data(period, hs_code, flowcode):
@@ -48,25 +65,20 @@ def get_data(period, hs_code, flowcode):
     return summary_data
 
 
-sd = get_data(202201, "950490", "M")  # örnek
+##############################
+# Date Scope Generation
+##############################
+start_date = '2010-01-01'
+end_date = '2023-11-30'
 
-
-########### Date Scope Generation ###########
-start_date = datetime(2016, 1, 1)
-end_date = datetime(2022, 12, 31)
-
-date_list = []
-current_date = start_date
-
-while current_date <= end_date:
-    date_list.append(current_date.strftime('%Y%m'))
-    current_date = current_date + timedelta(days = 32)
-
+date_list = pd.date_range(start=start_date, end=end_date, freq='MS').strftime('%Y%m').tolist()
 print(date_list)
 
 
-############## Data Scraping ############
-for i in df_M_HS["HS_Code"][7:]:
+##############################
+# Data Scraping Process
+##############################
+for i in df_M_HS["HS_Code"]:
     df_temp = pd.DataFrame()
     for j in date_list:
         temp = get_data(j, i, "M")
