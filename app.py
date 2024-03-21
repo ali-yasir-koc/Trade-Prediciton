@@ -21,7 +21,7 @@ app = Flask(__name__)
 # Some needed csv files are read.
 predictions, mae_values, hs_descriptions, countries = af.read_csv()
 
-# The flask app is started.
+# Flask calls home(), which has the application / URL path.
 @app.route('/')
 def home():
     """
