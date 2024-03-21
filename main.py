@@ -8,7 +8,7 @@
 
 
 ##############################
-# Import Library and Settings
+# Import Library
 ##############################
 import sys
 import pandas as pd
